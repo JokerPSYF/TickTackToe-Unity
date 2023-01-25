@@ -12,11 +12,13 @@ public class GridSpace : MonoBehaviour
 
     public void SetGameControllerReference(GameController controller)
     {
+        Debug.Log("ctor");
         gameController = controller;
     }
 
     public void SetSpace()
     {
+        Debug.Log("Set the button off");
         buttonText.text = gameController.GetPlayerSide();
         button.interactable = false;
         gameController.EndTurn();

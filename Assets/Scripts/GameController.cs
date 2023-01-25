@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 [System.Serializable]
 public class Player
@@ -29,6 +27,7 @@ public class GameController : MonoBehaviour
     public PlayerColor activePlayerColor;
     public PlayerColor inactivePlayerColor;
     public GameObject startInfo;
+    public GridSpace[] gridSpaces;
 
 
     private string playerSide;
@@ -36,6 +35,7 @@ public class GameController : MonoBehaviour
 
     public void SetStartingSide(string startingSide)
     {
+        Debug.Log($"Set starting side {startingSide}");
         playerSide = startingSide;
         if (playerSide == "X")
         {
@@ -59,12 +59,14 @@ public class GameController : MonoBehaviour
 
     public string GetPlayerSide()
     {
+        Debug.Log("We get player side");
         return playerSide;
     }
 
     public void RestartGame()
     {
-        SetStartingSide("X");
+        Debug.Log("set board interactable false");
+        SetBoardInteractable(false);
         moveCount = 0;
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
@@ -93,7 +95,12 @@ public class GameController : MonoBehaviour
 
     private void StartGame()
     {
+        Debug.Log("Start Game");
+
         startInfo.SetActive(false);
+
+        Debug.Log("Set Board interactable true");
+
         SetBoardInteractable(true);
         SetPlayerButtons(false);
     }
@@ -122,6 +129,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Awake");
         SetGameControllerReferenceOnButtons();
         moveCount = 0;
         gameOverPanel.SetActive(false);
@@ -138,10 +146,12 @@ public class GameController : MonoBehaviour
 
     private void GameOver(string winningPlayer)
     {
+        Debug.Log("Game over");
         SetBoardInteractable(false);
         if (winningPlayer == "draw")
         {
             SetGameOverText("It's a Draw!");
+            Debug.Log("Set player inactive");
             SetPlayerColorsInactive();
         }
         else
@@ -150,6 +160,7 @@ public class GameController : MonoBehaviour
         }
 
         restartButton.SetActive(true);
+        Debug.Log("Restart button set active");
     }
 
     private void SetGameOverText(string value)
@@ -248,5 +259,13 @@ public class GameController : MonoBehaviour
         {
             SetPlayerColors(playerO, playerX);
         }
+        cpPlay();
+    }
+
+    private void cpPlay()
+    {
+        int rnd = Random.Range(0, 9);
+
+        gridSpaces[rnd].SetSpace();
     }
 }

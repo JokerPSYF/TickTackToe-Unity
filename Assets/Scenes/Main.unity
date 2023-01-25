@@ -1941,6 +1941,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6306671711878471523, guid: e9f300d2d27804447a8a43e2d45f458d, type: 3}
   m_PrefabInstance: {fileID: 2427916248533303413}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1284092419 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8174394238765756697, guid: e9f300d2d27804447a8a43e2d45f458d, type: 3}
+  m_PrefabInstance: {fileID: 2427916248533303413}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f9d8ade51325242bb20a264a378431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1313610746 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6306671710642920779, guid: e9f300d2d27804447a8a43e2d45f458d, type: 3}
@@ -3033,7 +3044,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: X
+          m_StringArgument: O
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2117881654
@@ -3108,6 +3119,7 @@ MonoBehaviour:
     panelColor: {r: 0.12941177, g: 0.17254902, b: 0.21568628, a: 1}
     textColor: {r: 0, g: 0.8, b: 0.8, a: 1}
   startInfo: {fileID: 1960461066}
+  gridSpace: {fileID: 1284092419}
 --- !u!1001 &2427916248533303413
 PrefabInstance:
   m_ObjectHideFlags: 0
