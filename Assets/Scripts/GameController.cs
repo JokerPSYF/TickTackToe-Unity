@@ -29,14 +29,14 @@ public class GameController : MonoBehaviour
     public GameObject startInfo;
     public GridSpace[] gridSpaces;
 
-
+    private string currSide;
     private string playerSide;
     private byte moveCount;
 
     public void SetStartingSide(string startingSide)
     {
-        Debug.Log($"Set starting side {startingSide}");
         playerSide = startingSide;
+        currSide = "X";
         if (playerSide == "X")
         {
             SetPlayerColors(playerX, playerO);
@@ -52,20 +52,18 @@ public class GameController : MonoBehaviour
     {
         moveCount++;
 
-        if (CheckWinCondition()) GameOver(playerSide);
+        if (CheckWinCondition()) GameOver(currSide);
         else if (moveCount >= 9 && !CheckWinCondition()) GameOver("draw");
         else ChangeSide();
     }
 
     public string GetPlayerSide()
     {
-        Debug.Log("We get player side");
-        return playerSide;
+        return currSide;
     }
 
     public void RestartGame()
     {
-        Debug.Log("set board interactable false");
         SetBoardInteractable(false);
         moveCount = 0;
         gameOverPanel.SetActive(false);
@@ -95,14 +93,14 @@ public class GameController : MonoBehaviour
 
     private void StartGame()
     {
-        Debug.Log("Start Game");
-
         startInfo.SetActive(false);
-
-        Debug.Log("Set Board interactable true");
-
         SetBoardInteractable(true);
         SetPlayerButtons(false);
+
+        if (playerSide == "O")
+        {
+            cpPlay();
+        }
     }
 
     private void SetPlayerColors(Player newPlayer, Player oldPlayer)
@@ -129,7 +127,6 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("Awake");
         SetGameControllerReferenceOnButtons();
         moveCount = 0;
         gameOverPanel.SetActive(false);
@@ -146,12 +143,10 @@ public class GameController : MonoBehaviour
 
     private void GameOver(string winningPlayer)
     {
-        Debug.Log("Game over");
         SetBoardInteractable(false);
         if (winningPlayer == "draw")
         {
             SetGameOverText("It's a Draw!");
-            Debug.Log("Set player inactive");
             SetPlayerColorsInactive();
         }
         else
@@ -160,7 +155,6 @@ public class GameController : MonoBehaviour
         }
 
         restartButton.SetActive(true);
-        Debug.Log("Restart button set active");
     }
 
     private void SetGameOverText(string value)
@@ -178,7 +172,7 @@ public class GameController : MonoBehaviour
             win = true;
             for (int j = 0; j < 3; j++)
             {
-                if (buttonList[i + j].text != playerSide)
+                if (buttonList[i + j].text != currSide)
                 {
                     win = false;
                 }
@@ -202,7 +196,7 @@ public class GameController : MonoBehaviour
             win = true;
             for (int i = 0; i <= j + 6; i = i + 3)
             {
-                if (buttonList[i + j].text != playerSide)
+                if (buttonList[i + j].text != currSide)
                 {
                     win = false;
                 }
@@ -222,7 +216,7 @@ public class GameController : MonoBehaviour
 
         for (int i = 0; i <= 8; i = i + 4)
         {
-            if (buttonList[i].text != playerSide)
+            if (buttonList[i].text != currSide)
             {
                 win = false;
             }
@@ -234,7 +228,7 @@ public class GameController : MonoBehaviour
 
         for (int i = 2; i <= 6; i = i + 2)
         {
-            if (buttonList[i].text != playerSide)
+            if (buttonList[i].text != currSide)
             {
                 win = false;
             }
@@ -250,8 +244,8 @@ public class GameController : MonoBehaviour
 
     private void ChangeSide()
     {
-        playerSide = (playerSide == "X") ? "O" : "X";
-        if (playerSide == "X")
+        currSide = (currSide == "X") ? "O" : "X";
+        if (currSide == "X")
         {
             SetPlayerColors(playerX, playerO);
         }
@@ -259,13 +253,26 @@ public class GameController : MonoBehaviour
         {
             SetPlayerColors(playerO, playerX);
         }
-        cpPlay();
+
+        if (playerSide != currSide)
+        {
+            cpPlay();
+        }
     }
 
     private void cpPlay()
     {
         int rnd = Random.Range(0, 9);
 
-        gridSpaces[rnd].SetSpace();
+        if (gridSpaces[rnd].IsActive())
+        {
+            gridSpaces[rnd].SetSpace();
+        }
+        else
+        {
+            Debug.Log("AGAIN!!!");
+            cpPlay();
+        }
+        Debug.Log("STOP");
     }
 }
