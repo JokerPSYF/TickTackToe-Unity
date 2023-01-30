@@ -1,7 +1,6 @@
-using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class GridSpace : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class GridSpace : MonoBehaviour
 
     public void SetGameControllerReference(GameController controller)
     {
+        Debug.Log("Set game control reference");
         gameController = controller;
     }
 

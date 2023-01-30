@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,11 +28,40 @@ public class GameController : MonoBehaviour
     public PlayerColor activePlayerColor;
     public PlayerColor inactivePlayerColor;
     public GameObject startInfo;
+    public GameObject chooseModeInfo;
+    public GameObject playerVsPlayerBtn;
+    public GameObject playerVsPcBtn;
     public GridSpace[] gridSpaces;
 
+    private Mode mode;
     private string currSide;
     private string playerSide;
     private byte moveCount;
+
+    public void ChooseMode(string choosenMode)
+    {
+        Debug.Log($"chossenMode is {choosenMode}");
+        if (choosenMode == "PC")
+        {
+            Debug.Log(playerSide);
+
+            this.mode = new PcMode(gridSpaces);
+        }
+        else if (choosenMode == "Player")
+        {
+            Debug.Log($"Enter in Player");
+            this.mode = new PlayerMode(gridSpaces);
+        }
+        else
+        {
+            Debug.Log($"Error");
+        }
+        playerVsPcBtn.SetActive(false);
+        playerVsPlayerBtn.SetActive(false);
+        chooseModeInfo.SetActive(false);
+        playerO.button.gameObject.SetActive(true);
+        playerX.button.gameObject.SetActive(true);
+    }
 
     public void SetStartingSide(string startingSide)
     {
@@ -69,6 +99,11 @@ public class GameController : MonoBehaviour
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
         startInfo.SetActive(true);
+        playerVsPlayerBtn.SetActive(true);
+        playerVsPcBtn.SetActive(true);
+        playerO.button.gameObject.SetActive(false);
+        playerX.button.gameObject.SetActive(false);
+        chooseModeInfo.SetActive(true);
         SetPlayerButtons(true);
         SetPlayerColorsInactive();
         for (int i = 0; i < buttonList.Length; i++)
@@ -94,9 +129,12 @@ public class GameController : MonoBehaviour
     private void StartGame()
     {
         startInfo.SetActive(false);
+        playerVsPlayerBtn.SetActive(false);
+        playerVsPcBtn.SetActive(false);
         SetBoardInteractable(true);
         SetPlayerButtons(false);
 
+        // WARNING
         if (playerSide == "O")
         {
             cpPlay();
@@ -127,8 +165,11 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("Awake");
         SetGameControllerReferenceOnButtons();
         moveCount = 0;
+        playerO.button.gameObject.SetActive(false);
+        playerX.button.gameObject.SetActive(false);
         gameOverPanel.SetActive(false);
         restartButton.SetActive(false);
     }
